@@ -123,9 +123,7 @@ namespace KuruKuruClicker
 
             Image hertaImageElement = new Image
             {
-                Width = 200,
-                Height = 200,
-                RenderTransform = new TranslateTransform(500, 0),
+                RenderTransform = new TranslateTransform(ActualWidth + 500, 0),
                 RenderTransformOrigin = new Point(0.5, 0.5),
                 VerticalAlignment = VerticalAlignment.Bottom
             };
@@ -136,10 +134,10 @@ namespace KuruKuruClicker
 
             HertaShowerGrid.Children.Add(hertaImageElement);
             Grid.SetZIndex(hertaImageElement, -1);
-
+            double animationX = -ActualWidth;
             DoubleAnimation hertaMoveAnimation = new DoubleAnimation
             {
-                To = -500,
+                To = animationX,
                 Duration = TimeSpan.FromSeconds(1),
             };
 
@@ -148,7 +146,7 @@ namespace KuruKuruClicker
 
             hertaTransformAnimation.Changed += (s, e) =>
             {
-                if (hertaTransformAnimation.X == -500)
+                if (hertaTransformAnimation.X == animationX)
                 {
                     HertaShowerGrid.Children.Remove(hertaImageElement);
                 }
