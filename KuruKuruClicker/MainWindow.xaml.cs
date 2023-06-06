@@ -24,14 +24,21 @@ namespace KuruKuruClicker
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        static string hertaAudioFolder = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\KuruKuruClicker\audio";
+        static string hertaKuruToAudio = System.IO.Path.Combine(hertaAudioFolder, "kuruto.wav");
+        static string hertaKuruRingAudio = System.IO.Path.Combine(hertaAudioFolder, "kuru1.wav");
+        static string hertaKuruKuruAudio = System.IO.Path.Combine(hertaAudioFolder, "kuru2.wav");
+
+        static string[] hertaAudio = new string[3] { hertaKuruToAudio, hertaKuruRingAudio, hertaKuruKuruAudio };
+
         private bool firstStart = true;
 
         private int count;
         public int Count
         {
             get { return count; }
-            set 
-            { 
+            set
+            {
                 count = value;
                 OnPropertyChanged(nameof(Count));
             }
@@ -64,8 +71,10 @@ namespace KuruKuruClicker
                 {
                     Directory.CreateDirectory(hertaAudioFolder);
                 }
+
                 string[] files = Directory.GetFiles(hertaAudioFolder);
-                if (!files.Contains("kuru1.wav") || !files.Contains("kuru2.wav") || !files.Contains("kuruto.wav"))
+
+                if (!files.Contains("kuru1.wav"))
                 {
                     using (Stream waveFile = Properties.Resources.kuruto)
                     {
@@ -74,7 +83,10 @@ namespace KuruKuruClicker
                             waveFile.CopyTo(fileStream);
                         }
                     }
+                }
 
+                if (!files.Contains("kuru2.wav"))
+                {
                     using (Stream waveFile = Properties.Resources.kuru1)
                     {
                         using (var fileStream = new FileStream(hertaKuruRingAudio, FileMode.Create, FileAccess.Write))
@@ -82,7 +94,10 @@ namespace KuruKuruClicker
                             waveFile.CopyTo(fileStream);
                         }
                     }
+                }
 
+                if (!files.Contains("kuruto.wav"))
+                {
                     using (Stream waveFile = Properties.Resources.kuru2)
                     {
                         using (var fileStream = new FileStream(hertaKuruKuruAudio, FileMode.Create, FileAccess.Write))
@@ -96,17 +111,9 @@ namespace KuruKuruClicker
             {
                 MessageBox.Show(e.Message);
             }
-
-
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
-
+        #region Herta_Main_Function
         private void SquishButton_Click(object sender, RoutedEventArgs e)
         {
             Count++;
@@ -123,27 +130,25 @@ namespace KuruKuruClicker
 
             Image hertaImageElement = new Image
             {
-                RenderTransform = new TranslateTransform(ActualWidth + 500, 0),
+                RenderTransform = new TranslateTransform(ActualWidth + 50, 0),
                 RenderTransformOrigin = new Point(0.5, 0.5),
                 VerticalAlignment = VerticalAlignment.Bottom
             };
-
             var hertaImage = new BitmapImage(new Uri($"img/hertaa{randomIndex}.gif", UriKind.Relative));
-
             ImageBehavior.SetAnimatedSource(hertaImageElement, hertaImage);
 
             HertaShowerGrid.Children.Add(hertaImageElement);
             Grid.SetZIndex(hertaImageElement, -1);
-            double animationX = -ActualWidth;
+
+            double animationX = -ActualWidth + 50;
             DoubleAnimation hertaMoveAnimation = new DoubleAnimation
             {
                 To = animationX,
-                Duration = TimeSpan.FromSeconds(1),
+                Duration = TimeSpan.FromSeconds(1.5),
             };
 
             TranslateTransform hertaTransformAnimation = hertaImageElement.RenderTransform as TranslateTransform;
             hertaTransformAnimation.BeginAnimation(TranslateTransform.XProperty, hertaMoveAnimation);
-
             hertaTransformAnimation.Changed += (s, e) =>
             {
                 if (hertaTransformAnimation.X == animationX)
@@ -153,65 +158,51 @@ namespace KuruKuruClicker
             };
         }
 
-        static string hertaAudioFolder = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\KuruKuruClicker\audio";
-        static string hertaKuruToAudio = System.IO.Path.Combine(hertaAudioFolder, "kuruto.wav");
-        static string hertaKuruRingAudio = System.IO.Path.Combine(hertaAudioFolder, "kuru1.wav");
-        static string hertaKuruKuruAudio = System.IO.Path.Combine(hertaAudioFolder, "kuru2.wav");
-
-        static string[] hertaAudio = new string[3] { hertaKuruToAudio, hertaKuruRingAudio, hertaKuruKuruAudio };
-
         private void PlayKuru()
         {
-            try
+            if (firstSquish)
             {
-                if (firstSquish)
+                MediaElement player = new MediaElement();
+                player.LoadedBehavior = MediaState.Manual;
+                player.Visibility = Visibility.Hidden;
+                player.Source = new Uri(hertaAudio[0]);
+
+                HertaShowerGrid.Children.Add(player);
+                Grid.SetZIndex(player, -2);
+
+                player.MediaEnded += (sender, e) =>
                 {
-                    MediaElement player = new MediaElement();
-                    player.LoadedBehavior = MediaState.Manual;
-                    player.Visibility = Visibility.Hidden;
-                    player.Source = new Uri(hertaAudio[0]);
+                    HertaShowerGrid.Children.Remove(player);
+                    player = null;
+                };
 
-                    HertaShowerGrid.Children.Add(player);
-                    Grid.SetZIndex(player, -2);
+                player.Play();
 
-                    player.MediaEnded += (sender, e) =>
-                    {
-                        HertaShowerGrid.Children.Remove(player);
-                        player = null;
-                    };
-
-                    player.Play();
-
-                    firstSquish = false;
-                }
-                else
-                {
-                    MediaElement player = new MediaElement();
-                    player.LoadedBehavior = MediaState.Manual;
-                    player.Visibility = Visibility.Hidden;
-                    player.Source = new Uri(hertaAudio[(new Random()).Next(0, 3)]);
-
-                    HertaShowerGrid.Children.Add(player);
-                    Grid.SetZIndex(player, -2);
-
-                    player.MediaEnded += (sender, e) =>
-                    {
-                        HertaShowerGrid.Children.Remove(player);
-                        player = null;
-                    };
-
-                    player.Play();
-                }
+                firstSquish = false;
             }
-            catch (Exception e)
+            else
             {
-                MessageBox.Show(e.Message);
+                MediaElement player = new MediaElement();
+                player.LoadedBehavior = MediaState.Manual;
+                player.Visibility = Visibility.Hidden;
+                player.Source = new Uri(hertaAudio[(new Random()).Next(0, 3)]);
+
+                HertaShowerGrid.Children.Add(player);
+                Grid.SetZIndex(player, -2);
+
+                player.MediaEnded += (sender, e) =>
+                {
+                    HertaShowerGrid.Children.Remove(player);
+                    player = null;
+                };
+
+                player.Play();
             }
-        }
+        } 
+        #endregion
 
-        
-
-        private void languageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        #region Translate
+        private void Language_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!firstStart)
             {
@@ -240,11 +231,11 @@ namespace KuruKuruClicker
                         }
                 }
             }
-            
+
         }
 
-        string[] squishInfoTexts; 
-        string[] squishButtonTexts; 
+        string[] squishInfoTexts;
+        string[] squishButtonTexts;
         private void SetLanguageEnglish()
         {
             welcometb.Text = "Welcome to Herta Kuru Kururing";
@@ -290,7 +281,7 @@ namespace KuruKuruClicker
             pcRepoTB.Text = "GitHub回购PC:";
             siteRepoTB.Text = "GitHub回购站点:";
         }
-    
+
         private void SetLanguageJapanise()
         {
             welcometb.Text = "ヘルタクルクルリングへようこそ";
@@ -335,32 +326,43 @@ namespace KuruKuruClicker
             pcRepoTB.Text = "기투브 레포 컴퓨터:";
             siteRepoTB.Text = "지투브 레포 사이트:";
         }
+        #endregion
 
+        #region Links
         private void refreshDynamicTexts()
         {
-            squishButton.Content = squishButtonTexts[(new Random()).Next(0,2)];
-            squishInfoTB.Text = squishInfoTexts[(new Random()).Next(0,2)];
+            squishButton.Content = squishButtonTexts[(new Random()).Next(0, 2)];
+            squishInfoTB.Text = squishInfoTexts[(new Random()).Next(0, 2)];
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void GifAuthor_Click(object sender, RoutedEventArgs e)
         {
             Process.Start(new ProcessStartInfo("https://twitter.com/Seseren_kr"));
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void HertaPcAuthor_Click(object sender, RoutedEventArgs e)
         {
             Process.Start(new ProcessStartInfo("https://steamcommunity.com/id/KoksMen/"));
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void HertaPcRepo_Click(object sender, RoutedEventArgs e)
         {
             Process.Start(new ProcessStartInfo("https://github.com/KoksMen/herta_kuru_pc"));
         }
 
-        private void Button_Click_3(object sender, RoutedEventArgs e)
+        private void HertaWebRepo_Click(object sender, RoutedEventArgs e)
         {
             Process.Start(new ProcessStartInfo("https://github.com/duiqt/herta.kuru"));
         }
+        #endregion
 
+        #region Notify_Property_Changed
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        } 
+        #endregion
     }
 }

@@ -6,13 +6,11 @@
         xmlns:local="clr-namespace:KuruKuruClicker"
         mc:Ignorable="d"
         Title="Kuru Kuru~" 
-        Height="515" 
+        Height="550" 
         Width="800"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         >
-
-
     <Window.Resources>
         <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
             <Grid>
@@ -145,127 +143,121 @@
         </Style>
     </Window.Resources>
 
-
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition />
+            <RowDefinition Height="0.6*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0"
-              Background="#9d88d3"
-              >
-            
-            <Grid Grid.Row="0" 
-              x:Name="HertaShowerGrid"
-              >
-
-                <Image Panel.ZIndex="-5" Opacity="0.1" x:Name="HertaBackgroundGif"/>
-
-
+        <Grid
+            Grid.Row="0"
+            Background="#9d88d3">
+            <Grid  x:Name="HertaShowerGrid"
+                   VerticalAlignment="Center">
+                <Image Panel.ZIndex="-5" 
+                       Opacity="0.1" 
+                       x:Name="HertaBackgroundGif"/>
                 <StackPanel Orientation="Vertical">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="35">
-                        <TextBlock
-                        Name="welcometb"
-                        Text="Welcome to Herta Kuru Kururing"
-                        HorizontalAlignment="Center"
-                        Foreground="White"
-                        FontWeight="Bold"
-                        FontSize="25"
-                    />
+                    <StackPanel Orientation="Horizontal" 
+                                HorizontalAlignment="Center">
+                        <Viewbox>
+                            <TextBlock
+                                Name="welcometb"
+                                Text="Welcome to Herta Kuru Kururing"
+                                HorizontalAlignment="Center"
+                                Foreground="White"
+                                FontWeight="Bold"
+                                FontSize="25"/>
+                        </Viewbox>
                         <Image
-                        Source="img\favicon.ico" />
+                            Source="img\favicon.ico"
+                            Stretch="Uniform"
+                            MaxHeight="48"/>
                     </StackPanel>
-
-                    <ComboBox HorizontalAlignment="Center" SelectedIndex="0" 
+                    <ComboBox HorizontalAlignment="Center" 
+                              SelectedIndex="0" 
                               Foreground="White"
-                              x:Name="languageComboBox" SelectionChanged="languageComboBox_SelectionChanged"
-                              >
+                              x:Name="languageComboBox" 
+                              SelectionChanged="Language_SelectionChanged">
                         <ComboBoxItem Foreground="Black">English</ComboBoxItem>
                         <ComboBoxItem Foreground="Black">中文</ComboBoxItem>
                         <ComboBoxItem Foreground="Black">日本語</ComboBoxItem>
                         <ComboBoxItem Foreground="Black">한국어</ComboBoxItem>
                     </ComboBox>
-
-                    <Separator Width="640" Height="1">
+                    <Separator Width="640" 
+                               Height="1">
                         <Separator.Style>
                             <Style TargetType="Separator">
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="Separator">
-                                            <Rectangle Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Stroke="White" StrokeDashArray="3 2" />
+                                            <Rectangle Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" 
+                                                       Stroke="White" 
+                                                       StrokeDashArray="3 2"/>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
                             </Style>
                         </Separator.Style>
                     </Separator>
-
-
                     <TextBlock
-                Text="The website for Herta, the (annoying)  cutest genius Honkai:  Star Rail character out there.  "
-                HorizontalAlignment="Center"
-                Foreground="White"
-                FontSize="15"
-                x:Name="siteInfoTB"
-                />
-
+                        Text="The website for Herta, the (annoying)  cutest genius Honkai:  Star Rail character out there.  "
+                        HorizontalAlignment="Center"
+                        Foreground="White"
+                        FontSize="15"
+                        x:Name="siteInfoTB"/>
                     <StackPanel
-                    Margin="0 30 0 0"
-                    Orientation="Vertical"
-                    VerticalAlignment="Center"
-                    >
-
+                        Margin="0 30 0 0"
+                        Orientation="Vertical"
+                        VerticalAlignment="Center">
                         <TextBlock
-                        Text="The kuru~ has been squished"
-                        HorizontalAlignment="Center"
-                        Foreground="White"
-                        x:Name="squishInfoTB"
-                        />
-
+                            Text="The kuru~ has been squished"
+                            HorizontalAlignment="Center"
+                            Foreground="White"
+                            x:Name="squishInfoTB"/>
                         <TextBlock
-                        Text="{Binding Count, Mode=TwoWay, TargetNullValue=0, UpdateSourceTrigger=PropertyChanged}"
-                        HorizontalAlignment="Center"
-                        Foreground="#574f84"
-                        FontSize="25"
-                        FontWeight="Bold"
-                    />
-
+                            Text=
+                                "{Binding Count, 
+                                Mode=TwoWay, 
+                                TargetNullValue=0, 
+                                UpdateSourceTrigger=PropertyChanged}"
+                            HorizontalAlignment="Center"
+                            Foreground="#574f84"
+                            FontSize="25"
+                            FontWeight="Bold"/>
                         <TextBlock
-                        Text="times"
-                        HorizontalAlignment="Center"
-                        Foreground="White"
-                        x:Name="timesTB"
-                        />
-
-
-
+                            Text="times"
+                            HorizontalAlignment="Center"
+                            Foreground="White"
+                            x:Name="timesTB"/>
                         <Button
-                        x:Name="squishButton"
-                        Content="Squish the kuru~!"
-                        Foreground="White"
-                        Background="#2d2463"
-                        Padding="13"
-                        Margin="0 5"
-                        MaxWidth="150" 
-                        Width="Auto"
-                        Click="SquishButton_Click"
-                        >
+                            x:Name="squishButton"
+                            Content="Squish the kuru~!"
+                            Foreground="White"
+                            Background="#2d2463"
+                            Padding="13"
+                            Margin="0 5"
+                            MaxWidth="150" 
+                            Width="Auto"
+                            Click="SquishButton_Click">
                             <Button.Resources>
                                 <Style TargetType="{x:Type Border}">
-                                    <Setter Property="CornerRadius" Value="14"/>
+                                    <Setter Property="CornerRadius" 
+                                            Value="14"/>
                                 </Style>
                             </Button.Resources>
-
                         </Button>
-
-                        <Separator Width="640" Height="1">
+                        <Separator Width="640" 
+                                   Height="1">
                             <Separator.Style>
                                 <Style TargetType="{x:Type Separator}">
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type Separator}">
-                                                <Rectangle Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Stroke="White" StrokeDashArray="3 2" />
+                                                <Rectangle Width="{TemplateBinding Width}" 
+                                                           Height="{TemplateBinding Height}" 
+                                                           Stroke="White" 
+                                                           StrokeDashArray="3 2" />
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
@@ -274,118 +266,115 @@
                         </Separator>
                     </StackPanel>
                 </StackPanel>
-
             </Grid>
         </Grid>
-
         
-
-        <Grid Grid.Row="1">
+        <Grid
+            Margin="5 0 0 0"
+            Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="1.3*"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-
             <Image
                 Source="img/card.jpg"
-                HorizontalAlignment="Right"
-                Stretch="Fill"
-                Margin="10 35 5 35"
+                HorizontalAlignment="Center"
+                Margin="0 5 0 5"
                 />
-
-            <StackPanel 
+            <StackPanel
                 Orientation="Vertical" 
                 Grid.Column="1"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 MinWidth="360"
-                Margin="20 0 0 0"
-                >
-
-                <Button Background="Transparent" BorderThickness="0" 
-                        HorizontalContentAlignment="Left"
-                        Margin="0 0 0 5" Click="Button_Click"
-                        >
-                    <StackPanel Orientation="Horizontal" 
-                                >
-                        <Image Height="32"
-                                       Width="32"
-                                       Source="icons/twitter.png"
-                                       Margin="0 0 20 0"        
-                               />
-                        <TextBlock Text="Herta GIF: " 
-                                   x:Name="gifMadeTB"
-                                   VerticalAlignment="Center"
-                                   />
-                        <TextBlock Text="@Seseren_kr" 
-                                   VerticalAlignment="Center"
-                                   />
-                    </StackPanel>
-                </Button>
-                <Button Background="Transparent" BorderThickness="0"
-                        HorizontalContentAlignment="Left"
-                        Margin="0 0 0 5" Click="Button_Click_1"
-                        >
+                Margin="20 0 0 0">
+                <Button 
+                    Background="Transparent" 
+                    BorderThickness="0" 
+                    HorizontalContentAlignment="Left"
+                    Margin="0 0 0 5" 
+                    Click="GifAuthor_Click">
                     <StackPanel Orientation="Horizontal">
-                        <Image Height="32"
-                                       Width="32"
-                                       Source="icons/steam.png"
-                               Margin="0 0 20 0"
-                                       />
-                        <TextBlock Text="PC Verion Author: " 
-                                   x:Name="pcAuthorTB"
-                                   VerticalAlignment="Center"
-                                   />
-                        <TextBlock Text="@KoksMen" 
-                                   VerticalAlignment="Center"
-                                   />
+                        <Image 
+                            Height="32"
+                            Width="32"
+                            Source="icons/twitter.png"
+                            Margin="0 0 20 0"/>
+                        <TextBlock 
+                            Text="Herta GIF: " 
+                            x:Name="gifMadeTB"
+                            VerticalAlignment="Center"/>
+                        <TextBlock 
+                            Text="@Seseren_kr" 
+                            VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
-                <Button Background="Transparent" BorderThickness="0"
-                        HorizontalContentAlignment="Left"
-                        Margin="0 0 0 5" Click="Button_Click_2"
-                       >
+                <Button 
+                    Background="Transparent" 
+                    BorderThickness="0"
+                    HorizontalContentAlignment="Left"
+                    Margin="0 0 0 5"
+                    Click="HertaPcAuthor_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image 
+                            Height="32"
+                            Width="32"
+                            Source="icons/steam.png"
+                            Margin="0 0 20 0"/>
+                        <TextBlock 
+                            Text="PC Verion Author: " 
+                            x:Name="pcAuthorTB"
+                            VerticalAlignment="Center"/>
+                        <TextBlock 
+                            Text="@KoksMen" 
+                            VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button 
+                    Background="Transparent" 
+                    BorderThickness="0"
+                    HorizontalContentAlignment="Left"
+                    Margin="0 0 0 5"
+                    Click="HertaPcRepo_Click">
                     <StackPanel Orientation="Horizontal" >
-                        <Image Height="32"
-                                       Width="32"
-                                       Source="icons/github.png"
-                               Margin="0 0 20 0"
-                                       />
-                        <TextBlock Text="GitHub Repo PC: " 
-                                   x:Name="pcRepoTB"
-                                   VerticalAlignment="Center"
-                                   />
-                        <TextBlock Text="herta_kuru_pc repo" 
-                                   VerticalAlignment="Center"
-                                   />
+                        <Image 
+                            Height="32"
+                            Width="32"
+                            Source="icons/github.png"
+                            Margin="0 0 20 0"/>
+                        <TextBlock 
+                            Text="GitHub Repo PC: " 
+                            x:Name="pcRepoTB"
+                            VerticalAlignment="Center"/>
+                        <TextBlock 
+                            Text="herta_kuru_pc repo" 
+                            VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
-                <Button Background="Transparent" BorderThickness="0"
-                        HorizontalContentAlignment="Left"
-                        Margin="0 0 0 5"
-                        Click="Button_Click_3"
-                        >
+                <Button 
+                    Background="Transparent" 
+                    BorderThickness="0"
+                    HorizontalContentAlignment="Left"
+                    Margin="0 0 0 5"
+                    Click="HertaWebRepo_Click">
                     <StackPanel Orientation="Horizontal">
-                        <Image Height="32"
-                                       Width="32"
-                                       Source="icons/github.png"
-                               Margin="0 0 20 0"
-                               HorizontalAlignment="Left"
+                        <Image 
+                            Height="32"
+                            Width="32"
+                            Source="icons/github.png"
+                            Margin="0 0 20 0"
+                            HorizontalAlignment="Left"
                                        />
-                        <TextBlock Text="GitHub Repo Site: " 
-                                   x:Name="siteRepoTB"
-                                   VerticalAlignment="Center"
-                                   
-                                   />
-                        <TextBlock Text="herta_kuru repo" 
-                                   VerticalAlignment="Center"
-                                   />
+                        <TextBlock 
+                            Text="GitHub Repo Site: " 
+                            x:Name="siteRepoTB"
+                            VerticalAlignment="Center"/>
+                        <TextBlock 
+                            Text="herta_kuru repo" 
+                            VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
-                
             </StackPanel>
-
         </Grid>
-
     </Grid>
 </Window>
