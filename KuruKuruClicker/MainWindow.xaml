@@ -160,15 +160,14 @@
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal" 
                                 HorizontalAlignment="Center">
-                        <Viewbox>
                             <TextBlock
                                 Name="welcometb"
                                 Text="Welcome to Herta Kuru Kururing"
                                 HorizontalAlignment="Center"
                                 Foreground="White"
                                 FontWeight="Bold"
-                                FontSize="25"/>
-                        </Viewbox>
+                                FontSize="25"
+                                VerticalAlignment="Center"/>
                         <Image
                             Source="img\favicon.ico"
                             Stretch="Uniform"
